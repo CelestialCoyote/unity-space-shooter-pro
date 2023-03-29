@@ -7,16 +7,16 @@ public class Enemy : MonoBehaviour
 	[SerializeField]
 	private float _speed = 4.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
 
-    void Update()
-    {
-        CalculateMovement();
-    }
+	}
+
+	void Update()
+	{
+		CalculateMovement();
+	}
 
 	void CalculateMovement()
 	{
@@ -27,6 +27,26 @@ public class Enemy : MonoBehaviour
 		{
 			float randomX = Random.Range(-9.0f, 9.0f);
 			transform.position = new Vector3(randomX, 6.0f, 0);
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Player")
+		{
+			Player player = other.transform.GetComponent<Player>();
+			if (player != null)
+			{
+				player.Damage();
+			}
+
+			Destroy(this.gameObject);
+		}
+
+		if (other.tag == "Laser")
+		{
+			Destroy(other.gameObject);
+			Destroy(this.gameObject);
 		}
 	}
 }
